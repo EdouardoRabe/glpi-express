@@ -1,17 +1,17 @@
 {
   "name": "glpi-express",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "API Express + SQLite pour GLPI back-office",
+  "type": "module",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.js",
+    "dev": "node --watch src/index.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
   "dependencies": {
     "better-sqlite3": "^12.10.0",
     "cors": "^2.8.6",
+    "dotenv": "^16.4.7",
     "express": "^5.2.1"
   }
 }
