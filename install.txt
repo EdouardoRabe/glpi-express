@@ -1,0 +1,2 @@
+npm install express better-sqlite3 cors
+npm install dotenv
