@@ -18,11 +18,9 @@ db.pragma("foreign_keys = ON");
 
 // --- Migrations / création des tables ---
 db.exec(`
-    CREATE TABLE IF NOT EXISTS config (
-        id    INTEGER PRIMARY KEY AUTOINCREMENT,
-        name  TEXT    NOT NULL UNIQUE,
-        value TEXT    NOT NULL
+    CREATE TABLE IF NOT EXISTS corbeille (
+        id  INTEGER PRIMARY KEY AUTOINCREMENT,
+        idticket INTEGER NOT NULL
     );
 `);
-
 export default db;

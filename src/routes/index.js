@@ -1,8 +1,8 @@
 import { Router } from "express";
-import configRoutes from "./config.js";
+import corbeilleRoutes from "./corbeille.js";
 
 const router = Router();
 
-router.use("/config", configRoutes);
+router.use("/corbeille", corbeilleRoutes);
 
 export default router;
