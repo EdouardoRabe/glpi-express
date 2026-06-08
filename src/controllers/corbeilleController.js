@@ -6,8 +6,8 @@ export function getAll(_req, res) {
 }
 
 export function getByIdTicket(req, res) {
-    const row = db.prepare("SELECT * FROM corbeille WHERE idticket = ?").get(req.params.name);
-    if (!row) return res.status(404).json({ error: `corbeille "${req.params.name}" introuvable` });
+    const row = db.prepare("SELECT * FROM corbeille WHERE idticket = ?").get(req.params.idticket);
+    if (!row) return res.status(404).json({ error: `corbeille "${req.params.idticket}" introuvable` });
     res.json(row);
 }
 
@@ -50,11 +50,11 @@ export function update(req, res) {
 
 export function remove(req, res) {
     const result = db
-        .prepare("DELETE FROM corbeille WHERE id = ?")
-        .run(req.params.id);
+        .prepare("DELETE FROM corbeille WHERE idticket = ?")
+        .run(req.params.idticket);
 
     if (result.changes === 0) {
-        return res.status(404).json({ error: `corbeille "${req.params.id}" introuvable` });
+        return res.status(404).json({ error: `corbeille "${req.params.idticket}" introuvable` });
     }
 
     res.status(204).send();

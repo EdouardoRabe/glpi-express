@@ -4,9 +4,9 @@ import { getAll, create, update, remove, getByIdTicket } from "../controllers/co
 const router = Router();
 
 router.get("/",          getAll);
-router.get("/:id",     getByIdTicket);
+router.get("/:idticket",     getByIdTicket);
 router.post("/",         create);
 router.put("/:id",     update);
-router.delete("/:id",  remove);
+router.delete("/:idticket",  remove);
 
 export default router;
