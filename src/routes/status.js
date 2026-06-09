@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAll, create, update, remove, getByIdTicket, getByIdStatus } from "../controllers/statusController.js";
+import { getAll, create, update, remove, getByIdStatus } from "../controllers/statusController.js";
 
 const router = Router();
 
