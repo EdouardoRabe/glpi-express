@@ -39,7 +39,7 @@ export function update(req, res) {
 
     const result = db
         .prepare("UPDATE corbeille SET idticket = ? WHERE id = ?")
-        .run(String(value), req.params.id);
+        .run(idticket, req.params.id);
 
     if (result.changes === 0) {
         return res.status(404).json({ error: `corbeille "${req.params.id}" introuvable` });
