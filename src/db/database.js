@@ -26,13 +26,13 @@ db.exec(`
     CREATE TABLE IF NOT EXISTS status(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         id_status INTEGER UNIQUE NOT NULL,
-        name TEXT,
-        display_name TEXT,
+        english_name TEXT,
+        french_name TEXT,
         malagasy_name TEXT,
         color TEXT
     );
 
-    INSERT OR IGNORE INTO  status (id_status, name, display_name, malagasy_name, color)
+    INSERT OR IGNORE INTO  status (id_status, english_name, french_name, malagasy_name, color)
     VALUES
         (1, 'New', 'Nouveau', 'Vaovao', '#63a6e4'),
         (2, 'In progress', 'En cours', 'Vaovao', '#f9e75b'),
