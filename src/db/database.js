@@ -26,18 +26,49 @@ db.exec(`
     CREATE TABLE IF NOT EXISTS status(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         id_status INTEGER UNIQUE NOT NULL,
-        english_name TEXT NOT NULL,
-        french_name TEXT NOT NULL,
-        malagasy_name TEXT,
         color TEXT
     );
 
-    INSERT OR IGNORE INTO  status (id_status, english_name, french_name, malagasy_name, color)
+    CREATE TABLE IF NOT EXISTS language(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        code TEXT UNIQUE NOT NULL,
+        name TEXT NOT NULL
+    );
+
+    CREATE TABLE IF NOT EXISTS status_name(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id_status INTEGER NOT NULL,
+        language_code TEXT NOT NULL,
+        name TEXT NOT NULL
+    );
+
+
+    INSERT OR IGNORE INTO  status (id_status, color)
     VALUES
-        (1, 'New', 'Nouveau', 'Vaovao', '#63a6e4'),
-        (2, 'In progress', 'In progress', 'Efa manao', '#f9e75b'),
-        (6, 'Terminé', 'Terminé', 'Vita', '#06a629')
+        (1, '#63a6e4'),
+        (2, '#f9e75b'),
+        (6, '#06a629')
     ;
+
+    INSERT OR IGNORE INTO language (code, name)
+    VALUES
+        ('en', 'English'),
+        ('fr', 'French'),
+        ('mg', 'Malagasy')
+    ;
+
+    INSERT OR IGNORE INTO status_name (id_status, language_code, name)
+    VALUES
+        (1, 'en', 'New'),
+        (1, 'fr', 'Nouveau'),
+        (1, 'mg', 'Vaovao'),
+        (2, 'en', 'In progress'),
+        (2, 'fr', 'In progress'),
+        (2, 'mg', 'Efa manao'),
+        (6, 'en', 'Closed'),
+        (6, 'fr', 'Terminé'),
+        (6, 'mg', 'Vita')
+     ;
 
 `);
 export default db;
