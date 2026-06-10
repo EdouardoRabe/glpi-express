@@ -7,7 +7,7 @@ export function getAll(_req, res) {
 
 
 export function getByIdStatus(req, res) {
-    const row = db.prepare("SELECT * FROM statusWHERE id_status = ?").get(req.params.id_status);
+    const row = db.prepare("SELECT * FROM status WHERE id_status = ?").get(req.params.id_status);
     if (!row) return res.status(404).json({ error: `status"${req.params.id_status}" introuvable` });
     res.json(row);
 }
