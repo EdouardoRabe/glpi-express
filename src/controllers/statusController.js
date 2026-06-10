@@ -34,7 +34,7 @@ export function create(req, res) {
 export function update(req, res) {
     const {english_name, french_name, malagasy_name, color } = req.body ?? {};
 
-    if (!id_status || !english_name || !french_name || !malagasy_name || color) {
+    if ( !french_name ||  !color) {
         return res.status(400).json({ error: "Les champs id_status, english_name, french_name, malagasy_name, color sont obligatoires" });
     }
 
@@ -46,7 +46,7 @@ export function update(req, res) {
         return res.status(404).json({ error: `status"${req.params.id_status}" introuvable` });
     }
 
-    res.json({ id: req.params.id_status, id_status });
+    res.json({ id: req.params.id_status});
 }
 
 export function remove(req, res) {

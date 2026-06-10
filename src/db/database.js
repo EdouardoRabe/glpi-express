@@ -26,8 +26,8 @@ db.exec(`
     CREATE TABLE IF NOT EXISTS status(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         id_status INTEGER UNIQUE NOT NULL,
-        english_name TEXT,
-        french_name TEXT,
+        english_name TEXT NOT NULL,
+        french_name TEXT NOT NULL,
         malagasy_name TEXT,
         color TEXT
     );
