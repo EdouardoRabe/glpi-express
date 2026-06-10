@@ -29,8 +29,8 @@ export function getByIdStatus(req, res) {
 export function create(req, res) {
     const { id_status, english_name, french_name, malagasy_name, color } = req.body ?? {};
 
-    if (!id_status || !english_name || !french_name || !malagasy_name || !color) {
-        return res.status(400).json({ error: "Les champs id_status, english_name, french_name, malagasy_name, color sont obligatoires" });
+    if (!id_status || !english_name || !french_name || !color) {
+        return res.status(400).json({ error: "Les champs id_status, english_name, french_name, color sont obligatoires" });
     }
 
     try {
@@ -41,7 +41,7 @@ export function create(req, res) {
             const result = insertStatus.run(id_status, color);
             insertName.run(id_status, "fr", french_name);
             insertName.run(id_status, "en", english_name);
-            insertName.run(id_status, "mg", malagasy_name);
+            insertName.run(id_status, "mg", malagasy_name ?? null);
             return result.lastInsertRowid;
         });
 
@@ -59,8 +59,8 @@ export function update(req, res) {
     const { english_name, french_name, malagasy_name, color } = req.body ?? {};
     const { id_status } = req.params;
 
-    if (!english_name || !french_name || !malagasy_name || !color) {
-        return res.status(400).json({ error: "Les champs english_name, french_name, malagasy_name, color sont obligatoires" });
+    if (!english_name || !french_name || !color) {
+        return res.status(400).json({ error: "Les champs english_name, french_name, color sont obligatoires" });
     }
 
     const updateColor = db.prepare("UPDATE status SET color = ? WHERE id_status = ?");
@@ -70,7 +70,7 @@ export function update(req, res) {
         const result = updateColor.run(String(color), id_status);
         updateName.run(String(french_name),  id_status, "fr");
         updateName.run(String(english_name),  id_status, "en");
-        updateName.run(String(malagasy_name), id_status, "mg");
+        updateName.run(malagasy_name ?? null, id_status, "mg");
         return result.changes;
     });
 
