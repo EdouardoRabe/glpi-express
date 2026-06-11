@@ -42,6 +42,12 @@ db.exec(`
         name TEXT NOT NULL
     );
 
+    CREATE TABLE IF NOT EXISTS display(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id_status INTEGER UNIQUE NOT NULL,
+        language_name TEXT
+    );
+
 
     INSERT OR IGNORE INTO  status (id_status, color)
     VALUES
@@ -52,9 +58,9 @@ db.exec(`
 
     INSERT OR IGNORE INTO language (code, name)
     VALUES
-        ('en', 'English'),
-        ('fr', 'French'),
-        ('mg', 'Malagasy')
+        ('en', 'english'),
+        ('fr', 'french'),
+        ('mg', 'malagasy')
     ;
 
     INSERT OR IGNORE INTO status_name (id_status, language_code, name)
@@ -62,13 +68,21 @@ db.exec(`
         (1, 'en', 'New'),
         (1, 'fr', 'Nouveau'),
         (1, 'mg', 'Vaovao'),
-        (2, 'en', 'In progress'),
+        (2, 'en', 'In progress (assigned)'),
         (2, 'fr', 'In progress'),
         (2, 'mg', 'Efa manao'),
         (6, 'en', 'Closed'),
         (6, 'fr', 'Terminé'),
         (6, 'mg', 'Vita')
      ;
+
+    INSERT OR IGNORE INTO display (id_status, language_name)
+    VALUES
+        (1, 'french'),
+        (2, 'french'),
+        (6, 'french')
+    ;
+   
 
 `);
 export default db;

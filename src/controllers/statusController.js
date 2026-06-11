@@ -30,10 +30,11 @@ export function getAll(_req, res) {
             s.id,
             s.id_status,
             ${pivotColumns},
-            s.color
+            s.color,
+            d.language_name AS to_display
         FROM status s
-        LEFT JOIN status_name sn ON sn.id_status = s.id_status
-        GROUP BY s.id, s.id_status, s.color
+        LEFT JOIN status_name sn ON sn.id_status = s.id_status JOIN display d ON d.id_status = s.id_status
+        GROUP BY s.id, s.id_status, s.color, d.language_name
         ORDER BY s.id_status
     `).all();
 
@@ -49,7 +50,7 @@ export function getByIdStatus(req, res) {
 }
 
 export function create(req, res) {
-    const { id_status, color } = req.body ?? {};
+    const { id_status, color, to_display } = req.body ?? {};
 
     if (!id_status || !color) {
         return res.status(400).json({ error: "Les champs id_status et color sont obligatoires" });
@@ -59,12 +60,14 @@ export function create(req, res) {
         const languages = getLanguages();
         const insertStatus = db.prepare("INSERT INTO status(id_status, color) VALUES (?, ?)");
         const insertName   = db.prepare("INSERT INTO status_name(id_status, language_code, name) VALUES (?, ?, ?)");
+        const insertDisplay = db.prepare("INSERT INTO display(id_status, language_name) VALUES (?, ?)");
 
         const createStatus = db.transaction(() => {
             const result = insertStatus.run(id_status, color);
             for (const lang of languages) {
                 const value = req.body[langKey(lang)];
                 insertName.run(id_status, lang.code, value ?? null);
+                insertDisplay.run(id_status, to_display ?? null);
             }
             return result.lastInsertRowid;
         });
@@ -80,7 +83,7 @@ export function create(req, res) {
 }
 
 export function update(req, res) {
-    const { color } = req.body ?? {};
+    const { color, to_display } = req.body ?? {};
     const { id_status } = req.params;
 
     if (!color) {
@@ -91,12 +94,14 @@ export function update(req, res) {
     const updateColor = db.prepare("UPDATE status SET color = ? WHERE id_status = ?");
     const updateName  = db.prepare("UPDATE status_name SET name = ? WHERE id_status = ? AND language_code = ?");
     const insertName  = db.prepare("INSERT INTO status_name(id_status, language_code, name) VALUES (?, ?, ?)");
+    const updateDisplay = db.prepare("UPDATE display SET language_name = ? WHERE id_status = ?");
 
     const updateStatus = db.transaction(() => {
         const result = updateColor.run(String(color), id_status);
         for (const lang of languages) {
             const value = req.body[langKey(lang)] ?? null;
             const changed = updateName.run(value, id_status, lang.code).changes;
+            const changedDisplay = updateDisplay.run(to_display ?? null, id_status).changes;
             if (changed === 0) {
                 insertName.run(id_status, lang.code, value);
             }
@@ -118,9 +123,12 @@ export function remove(req, res) {
 
     const deleteNames  = db.prepare("DELETE FROM status_name WHERE id_status = ?");
     const deleteStatus = db.prepare("DELETE FROM status WHERE id_status = ?");
+    const deleteDisplay = db.prepare("DELETE FROM display WHERE id_status = ?");
 
     const removeStatus = db.transaction(() => {
         deleteNames.run(id_status);
+        deleteDisplay.run(id_status);
+
         return deleteStatus.run(id_status).changes;
     });
 
