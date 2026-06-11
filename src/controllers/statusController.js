@@ -157,12 +157,14 @@ export function createLanguage(req, res) {
     try {
         const insertLanguage = db.prepare("INSERT INTO language(code, name) VALUES (?, ?)");
         const insertName     = db.prepare("INSERT INTO status_name(id_status, language_code, name) VALUES (?, ?, ?)");
+        const insertDisplay  = db.prepare("INSERT INTO display(id_status, language_name) VALUES (?, ?)");
         const allStatus      = db.prepare("SELECT id_status FROM status");
 
         const createLang = db.transaction(() => {
             const result = insertLanguage.run(code, name);
             for (const s of allStatus.all()) {
                 insertName.run(s.id_status, code, "");
+                insertDisplay.run(s.id_status, name);
             }
             return result.lastInsertRowid;
         });
