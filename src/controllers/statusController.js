@@ -120,8 +120,8 @@ export function remove(req, res) {
     const deleteStatus = db.prepare("DELETE FROM status WHERE id_status = ?");
 
     const removeStatus = db.transaction(() => {
-        deleteNames.run(id_status);                
-        return deleteStatus.run(id_status).changes; 
+        deleteNames.run(id_status);
+        return deleteStatus.run(id_status).changes;
     });
 
     const changes = removeStatus();
@@ -131,4 +131,40 @@ export function remove(req, res) {
     }
 
     res.status(204).send();
+}
+
+export function createLanguage(req, res) {
+    const { code, name } = req.body ?? {};
+
+    if (!code || !name) {
+        return res.status(400).json({ error: "Les champs code et name sont obligatoires" });
+    }
+    try {
+        safeIdent(code);
+        safeIdent(`${name.toLowerCase()}_name`);
+    } catch {
+        return res.status(400).json({ error: "code/name invalides (lettres, chiffres et _ uniquement)" });
+    }
+
+    try {
+        const insertLanguage = db.prepare("INSERT INTO language(code, name) VALUES (?, ?)");
+        const insertName     = db.prepare("INSERT INTO status_name(id_status, language_code, name) VALUES (?, ?, ?)");
+        const allStatus      = db.prepare("SELECT id_status FROM status");
+
+        const createLang = db.transaction(() => {
+            const result = insertLanguage.run(code, name);
+            for (const s of allStatus.all()) {
+                insertName.run(s.id_status, code, "");
+            }
+            return result.lastInsertRowid;
+        });
+
+        const id = createLang();
+        res.status(201).json({ id, code, name });
+    } catch (err) {
+        if (err.code === "SQLITE_CONSTRAINT_UNIQUE") {
+            return res.status(409).json({ error: `La langue "${code}" existe déjà` });
+        }
+        throw err;
+    }
 }
