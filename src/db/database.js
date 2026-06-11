@@ -29,14 +29,15 @@ db.exec(`
         english_name TEXT NOT NULL,
         french_name TEXT NOT NULL,
         malagasy_name TEXT,
+        to_display TEXT,
         color TEXT
     );
 
-    INSERT OR IGNORE INTO  status (id_status, english_name, french_name, malagasy_name, color)
+    INSERT OR IGNORE INTO  status (id_status, english_name, french_name, malagasy_name, to_display, color)
     VALUES
-        (1, 'New', 'Nouveau', 'Vaovao', '#63a6e4'),
-        (2, 'In progress', 'In progress', 'Efa manao', '#f9e75b'),
-        (6, 'Terminé', 'Terminé', 'Vita', '#06a629')
+        (1, 'New', 'Nouveau', 'Vaovao', 'french', '#63a6e4'),
+        (2, 'In progress', 'In progress', 'Efa manao', 'french', '#f9e75b'),
+        (6, 'Terminé', 'Terminé', 'Vita', 'french', '#06a629')
     ;
 
 `);
