@@ -42,10 +42,10 @@ db.exec(`
         name TEXT NOT NULL
     );
 
-    CREATE TABLE IF NOT EXISTS display(
+    CREATE TABLE IF NOT EXISTS status_config(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        id_status INTEGER UNIQUE NOT NULL,
-        language_code TEXT
+        code TEXT UNIQUE,
+        value TEXT        
     );
 
 
@@ -76,11 +76,9 @@ db.exec(`
         (6, 'mg', 'Vita')
      ;
 
-    INSERT OR IGNORE INTO display (id_status, language_code)
+    INSERT OR IGNORE INTO status_config (code, value)
     VALUES
-        (1, 'fr'),
-        (2, 'fr'),
-        (6, 'fr')
+        ('display','fr')
     ;
    
 
