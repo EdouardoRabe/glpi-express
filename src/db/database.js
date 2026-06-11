@@ -78,7 +78,7 @@ db.exec(`
 
     INSERT OR IGNORE INTO status_config (code, value)
     VALUES
-        ('display','fr')
+        ('display','french')
     ;
    
 
