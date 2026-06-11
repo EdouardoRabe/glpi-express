@@ -31,10 +31,10 @@ export function getAll(_req, res) {
             s.id_status,
             ${pivotColumns},
             s.color,
-            d.language_name AS to_display
+            l.name AS to_display
         FROM status s
-        LEFT JOIN status_name sn ON sn.id_status = s.id_status JOIN display d ON d.id_status = s.id_status
-        GROUP BY s.id, s.id_status, s.color, d.language_name
+        LEFT JOIN status_name sn ON sn.id_status = s.id_status JOIN display d ON d.id_status = s.id_status JOIN language l ON l.code = d.language_code
+        GROUP BY s.id, s.id_status, s.color, d.language_code
         ORDER BY s.id_status
     `).all();
 

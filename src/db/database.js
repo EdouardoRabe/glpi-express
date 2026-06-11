@@ -45,7 +45,7 @@ db.exec(`
     CREATE TABLE IF NOT EXISTS display(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         id_status INTEGER UNIQUE NOT NULL,
-        language_name TEXT
+        language_code TEXT
     );
 
 
@@ -76,11 +76,11 @@ db.exec(`
         (6, 'mg', 'Vita')
      ;
 
-    INSERT OR IGNORE INTO display (id_status, language_name)
+    INSERT OR IGNORE INTO display (id_status, language_code)
     VALUES
-        (1, 'french'),
-        (2, 'french'),
-        (6, 'french')
+        (1, 'fr'),
+        (2, 'fr'),
+        (6, 'fr')
     ;
    
 
