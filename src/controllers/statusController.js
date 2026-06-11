@@ -1,10 +1,10 @@
 import db from "../db/database.js";
 
-function getLanguages() {
+export function getLanguages() {
     return db.prepare("SELECT code, name FROM language").all();
 }
 
-function langKey(lang) {
+export function langKey(lang) {
     return `${lang.name.toLowerCase()}_name`;
 }
 
