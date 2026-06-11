@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getAll, create, update, remove, getByIdTicket } from "../controllers/corbeilleController.js";
+import { getAll, create, update } from "../controllers/statusConfigController.js";
 
 const router = Router();
 

@@ -1,7 +1,7 @@
 import db from "../db/database.js";
 
 export function getAll(_req, res) {
-    const rows = db.prepare("SELECT * FROM corbeille ORDER BY id").all();
+    const rows = db.prepare("SELECT * FROM status_config ORDER BY id").all();
     res.json(rows);
 }
 
