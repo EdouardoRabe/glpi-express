@@ -48,6 +48,12 @@ db.exec(`
         value TEXT        
     );
 
+    CREATE TABLE IF NOT EXISTS cost_ticket(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        id_ticket INTEGER,
+        cost REAL
+    );
+
 
     INSERT OR IGNORE INTO  status (id_status, color)
     VALUES
