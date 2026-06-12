@@ -51,7 +51,8 @@ db.exec(`
     CREATE TABLE IF NOT EXISTS cost_ticket(
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         id_ticket INTEGER,
-        cost REAL
+        cost REAL,
+        ouverture_cost REAL DEFAULT 0
     );
 
 
