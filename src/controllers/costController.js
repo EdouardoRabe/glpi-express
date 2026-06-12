@@ -44,6 +44,7 @@ export function remove(req, res){
 
 export function reouvrir(req, res){
     const { id_ticket } = req.params;
+    const { pourcentage } = req.body ?? [];
 
     if (!id_ticket) {
         return res.status(400).json({ error: "Le champ id_ticket est obligatoire" });
@@ -55,11 +56,10 @@ export function reouvrir(req, res){
         return res.status(404).json({ error: `Aucun cout trouvé pour le ticket "${id_ticket}"` });
     }
 
-    const ouverture = last.cost * 0.10;
+    const ouverture = last.cost * pourcentage /100;
 
     const stmt = db.prepare("INSERT INTO cost_ticket (id_ticket, cost, ouverture_cost) VALUES (?, ?, ?)");
     const result = stmt.run(id_ticket, 0, ouverture);
-D
     res.status(201).json({ id: result.lastInsertRowid, id_ticket, ouverture_cost: ouverture });
 }
 
